@@ -1,6 +1,6 @@
 # Console account manager
 #### This C++ console app allows you to store logins and passwords for different services.
-### Note that decryption is not currently supported.
+### Note that encryption is NOT currently supported.
 Data files are stored in the app's folder.
 
 ### Features:
