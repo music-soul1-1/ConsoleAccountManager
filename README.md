@@ -29,9 +29,8 @@ Data files are stored in the app's folder.
 
 
 ### Plans for the app:
-* move most of the main() function to external class.
 * add ability to remove users and their account records.
-* add decryption and encryption functions to secure user's data.
+* add encryption and decryption functions to secure user's data.
 * minor improvements to code readability.
 * fixing bugs
 
