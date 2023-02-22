@@ -33,6 +33,7 @@ Data files are stored in the app's folder.
 * add ability to remove users and their account records.
 * add decryption and encryption functions to secure user's data.
 * minor improvements to code readability.
+* fixing bugs
 
 
 Made by @music-soul1-1
