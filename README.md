@@ -3,21 +3,21 @@
 ### Note that encryption is NOT currently supported.
 Data files are stored in the app's folder.
 
-### Features:
+## Features:
 * account manager
 * multi-user app
 * account records are only available for authorised users who created the records
 * names of the services are also stored
 * data files are created automatically
 
-### Usage:
+## Usage:
 1. Download the [latest release](https://github.com/music-soul1-1/ConsoleAccountManager/releases).
 2. Unzip the folder.
 3. Run "ConsoleAccountManager.exe".
 4. To control the app you need to input numbers (e.g. 1 to log in)
 5. Enjoy :)
 
-### Screenshots:
+## Screenshots:
 
 ![Знімок екрана_20230221_211513](https://user-images.githubusercontent.com/72669184/220441132-52ba0741-9d1d-4333-b4ad-87c95266ddf8.png)
 ![Знімок екрана_20230221_211736](https://user-images.githubusercontent.com/72669184/220441232-04baa18b-2111-41dd-b0ee-fa802a1a5d04.png)
@@ -29,13 +29,15 @@ Data files are stored in the app's folder.
 
 
 
-### Plans for the app:
+## Plans for the app:
 * add encryption and decryption functions to secure user's data
 * minor improvements to code readability
 * fixing bugs
 
 
-### Changelog:
+## Changelog:
+
+### v.0.0.2-alpha:
 * added ability to remove users and their account records
 * accounts are now stored separately(one file for each user)
 * now you cannot add the same services (e.g. if you already have 'gmail' record, you will have to name the next service 'gmail2')
