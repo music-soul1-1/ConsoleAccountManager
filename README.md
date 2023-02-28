@@ -29,10 +29,15 @@ Data files are stored in the app's folder.
 
 
 ### Plans for the app:
-* add ability to remove users and their account records.
-* add encryption and decryption functions to secure user's data.
-* minor improvements to code readability.
+* add encryption and decryption functions to secure user's data
+* minor improvements to code readability
 * fixing bugs
+
+
+### Changelog:
+* added ability to remove users and their account records
+* accounts are now stored separately(one file for each user)
+* bug fix
 
 
 Made by @music-soul1-1

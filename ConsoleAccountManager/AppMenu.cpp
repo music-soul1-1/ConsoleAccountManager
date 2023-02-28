@@ -1,7 +1,7 @@
 #include "AppMenu.h"
 #include "LoginManager.h"
 
-int AppMenu::AppUI()
+void AppMenu::AppUI()
 {
     LoginManager app;
 
@@ -19,70 +19,80 @@ int AppMenu::AppUI()
         switch (menuCursor)
         {
             // login
-        case 1:
-        {
-            app.login();
-
-            if (app.LoginManager::isLoggedIn)
+            case 1:
             {
-                while (menuCursor != 3)
+                if (app.login())
                 {
-                    cout << "Choose an action: \n\n";
-
-                    cout << "1) Read account records \n";
-                    cout << "2) Add new account \n\n";
-
-                    cout << "3) Go back \n";
-                    cin >> menuCursor;
-
-                    switch (menuCursor)
+                    while (menuCursor != 5)
                     {
-                        // reading and displaying account records for current user
-                    case 1:
-                    {
-                        app.readAccounts();
-                        break;
+                        cout << "Choose an action: \n\n";
+
+                        cout << "1) Read account records \n";
+                        cout << "2) Add new account \n";
+                        cout << "3) Remove account \n";
+                        cout << "4) Remove current user \n\n";
+
+                        cout << "5) Go back \n";
+                        cin >> menuCursor;
+
+                        switch (menuCursor)
+                        {
+                            // reading and displaying account records for current user
+                            case 1:
+                            {
+                                app.readAccounts();
+
+                                break;
+                            }
+
+                            // adding new account records
+                            case 2:
+                            {
+                                app.addAccount();
+
+                                break;
+                            }
+
+                            // removing specific record
+                            case 3:
+                            {
+                                app.removeAccount();
+
+                                break;
+                            }
+                            
+                            // removing current user and it's accounts
+                            case 4:
+                            {
+                                app.removeUser();
+                                menuCursor = 5;
+
+                                break;
+                            }
+                        }
+                        system("PAUSE");
+                        system("CLS");
                     }
-
-                    // adding new account records
-                    case 2:
-                    {
-                        string newLogin, newPassword, newServiceName;
-
-                        cout << "Enter the name of the service (e.g. Gmail): ";
-                        cin >> newServiceName;
-                        cout << "Enter account's login: ";
-                        cin >> newLogin;
-                        cout << "Enter account's password: ";
-                        cin >> newPassword;
-
-                        app.addAccount(app.LoginManager::currentUser, newServiceName, newLogin, newPassword);
-
-                        break;
-                    }
-                    }
-                    system("PAUSE");
-                    system("CLS");
+                    break;
                 }
+                else
+                {
+                    cout << "You're not logged in.\n";
+                }
+                
+                break;
             }
-            else
+
+            // add user
+            case 2:
             {
-                cout << "You're not logged in.\n";
+                app.addUser();
+
+                break;
             }
-
-            break;
-        }
-
-        // add user
-        case 2:
-        {
-            app.addUser();
-            break;
-        }
         }
         system("PAUSE");
         system("CLS");
     }
-
     cin.get();
 }

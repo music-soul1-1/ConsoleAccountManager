@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-
+#include <sstream>
 
 using namespace std;
 
@@ -10,10 +10,8 @@ class LoginManager
 {
 private:
 	string inputLogin, userPassword,
-		   accountsFile = "accounts.dat",
-		   usersFile = "users.dat";
-
-	int countAttempts = 0;
+		   usersFile = "users.dat",
+		   accountsFile;
 
 public:
 	string currentUser;
@@ -26,7 +24,7 @@ public:
 	bool checkForPassword();
 
 	// login function
-	void login();
+	bool login();
 
 	// add user function
 	void addUser();
@@ -38,5 +36,14 @@ public:
 	void readAccounts();
 
 	// this function adds new account records for the current user
-	void addAccount(string userName, string serviceName, string login, string password);
+	void addAccount();
+	
+	// removes account
+	void removeAccount();
+
+	// checks if a string has certain content
+	bool hasContent(string sourceString, string contentToFind, char delimiter);
+
+	// removes user and it's accounts file
+	void removeUser();
 };

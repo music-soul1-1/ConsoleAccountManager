@@ -2,6 +2,6 @@
 class AppMenu
 {
 	public:
-		int AppUI();
+		// user interface(based on switch statement)
+		void AppUI();
 };
-
