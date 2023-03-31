@@ -3,6 +3,8 @@
 
 Data files are stored in the app's folder.
 
+### [See changelog](https://github.com/music-soul1-1/ConsoleAccountManager#changelog)
+
 ## Features:
 * account manager
 * multi-user app
