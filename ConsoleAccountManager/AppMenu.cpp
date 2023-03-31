@@ -5,25 +5,27 @@ void AppMenu::AppUI()
 {
     LoginManager app;
 
-    int menuCursor = 1;
+    char menuCursor = 49;
 
-    while (menuCursor != 0) {
+    while (menuCursor != 48) {
         cout << "Choose an action: \n\n";
 
         cout << "1) Log in into the app \n";
         cout << "2) Add new user \n\n";
 
         cout << "0) Exit \n";
+
         cin >> menuCursor;
 
         switch (menuCursor)
         {
-            // login
-            case 1:
+            // case 1
+            case 49:
             {
+                // login
                 if (app.login())
                 {
-                    while (menuCursor != 5)
+                    while (menuCursor != 53)
                     {
                         cout << "Choose an action: \n\n";
 
@@ -37,37 +39,51 @@ void AppMenu::AppUI()
 
                         switch (menuCursor)
                         {
-                            // reading and displaying account records for current user
-                            case 1:
+                            // case 1
+                            case 49:
                             {
+                                // reading and displaying account records for current user
                                 app.readAccounts();
 
                                 break;
                             }
 
-                            // adding new account records
-                            case 2:
+                            // case 2
+                            case 50:
                             {
+                                // adding new account records
                                 app.addAccount();
 
                                 break;
                             }
 
-                            // removing specific record
-                            case 3:
+                            // case 3
+                            case 51:
                             {
+                                // removing specific record
                                 app.removeAccount();
 
                                 break;
                             }
                             
-                            // removing current user and it's accounts
-                            case 4:
+                            // case 4
+                            case 52:
                             {
+                                // removing current user and it's accounts
                                 app.removeUser();
-                                menuCursor = 5;
+                                menuCursor = 53;
 
                                 break;
+                            }
+                            default:
+                            {
+                                if (menuCursor != 53)
+                                {
+                                    cout << "Invalid input\n";
+                                }
+
+                                break;
+
                             }
                         }
                         system("PAUSE");
@@ -77,18 +93,40 @@ void AppMenu::AppUI()
                 }
                 else
                 {
-                    cout << "You're not logged in.\n";
+                    cout << "Login or password is not correct.\n" << "You're not logged in.\n";
                 }
                 
                 break;
             }
 
-            // add user
-            case 2:
+            // case 2
+            case 50:
             {
                 app.addUser();
 
                 break;
+            }
+            // case ?
+            case 63:
+            {
+                cout << "App version:\n"
+                     << "v.0.0.3-beta\n\n"
+                     << "Made by:\n\n"
+                     << "music-soul1-1\n\n"
+                     << "Github page:\n"
+                     << "https://github.com/music-soul1-1/ConsoleAccountManager\n\n";
+
+                break;
+            }
+            default:
+            {
+                if (menuCursor != 48)
+                {
+                    cout << "Invalid input\n";
+                }
+
+                break;
+                
             }
         }
         system("PAUSE");

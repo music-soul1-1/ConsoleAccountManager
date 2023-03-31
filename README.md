@@ -1,12 +1,13 @@
-# Console account manager
+# Console Account Manager
 #### This C++ console app allows you to store logins and passwords for different services.
-### Note that encryption is NOT currently supported.
+
 Data files are stored in the app's folder.
 
 ## Features:
 * account manager
 * multi-user app
 * account records are only available for authorised users who created the records
+* data files are encrypted
 * names of the services are also stored
 * data files are created automatically
 
@@ -30,12 +31,18 @@ Data files are stored in the app's folder.
 
 
 ## Plans for the app:
-* add encryption and decryption functions to secure user's data
-* minor improvements to code readability
-* fixing bugs
+* improve code readability
+* find and fix bugs
 
 
 ## Changelog:
+
+### v.0.0.3-beta:
+* BIG updade - encryption and decryption are added.  
+They use input password as a key, so every record is secured.
+* account records are now stored in one file again.
+* invalid input fix.
+* if you enter '?' in the main menu(before logging in), you will see app info.
 
 ### v.0.0.2-alpha:
 * added ability to remove users and their account records

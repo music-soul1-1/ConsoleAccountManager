@@ -9,19 +9,23 @@ using namespace std;
 class LoginManager
 {
 private:
-	string inputLogin, userPassword,
-		   usersFile = "users.dat",
-		   accountsFile;
+	/* Variables and constants */
+	string inputLogin, inputPassword,
+		   usersFile = "users.dat", accountsFile = "accounts.dat",
+		   currentUser, currentPassword;
+	const char* temporaryFile = "temp.dat";
 
 public:
-	string currentUser;
+	/* Variables and constants */
 	bool isLoggedIn = false;
 
-	// checks if user exists within a file
-	bool checkForUser(string inputParam, string fileName);
+	/* Functions */
 
-	// checks if password exists within a file
-	bool checkForPassword();
+	// checks if user exists within a file
+	bool checkForUserName(string fileName, string inputParam);
+
+	// checks if content for current user exists within a file
+	bool checkUser(string fileName, string contentToCheck);
 
 	// login function
 	bool login();
@@ -29,8 +33,10 @@ public:
 	// add user function
 	void addUser();
 
-	// add line function. This function adds specified content to file
-	void addLine(string fileName, string content);
+	// add line function. This function encrypts and adds specified content to file.
+	// "delimiter" parameter is printed after all the content. Default valuse is 0.
+	// "endWith" parameter defines the ending of each character. Default value is ' '(space).
+	void addLine(string fileName, string content, char delimiter = '0', char endWith = ' ');
 
 	// this function displays all records for current user
 	void readAccounts();
@@ -41,9 +47,14 @@ public:
 	// removes account
 	void removeAccount();
 
-	// checks if a string has certain content
-	bool hasContent(string sourceString, string contentToFind, char delimiter);
-
 	// removes user and it's accounts file
 	void removeUser();
+
+	// Encryption function.
+	// Second parameter is used as a key(password) for encrypting.
+	long long encrypt(int input, string key = "");
+
+	// Decryption function.
+	// Second parameter is used as a key(password) for decrypting.
+	char decrypt(long long input, string key = "");
 };
