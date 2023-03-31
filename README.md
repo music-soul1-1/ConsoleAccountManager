@@ -33,6 +33,7 @@ Data files are stored in the app's folder.
 
 
 ## Plans for the app:
+* improve encryption/decryption security
 * improve code readability
 * find and fix bugs
 
