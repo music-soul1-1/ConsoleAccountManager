@@ -22,7 +22,7 @@ Data files are stored in the app's folder.
 
 ![Знімок екрана_20230221_211513](https://user-images.githubusercontent.com/72669184/220441132-52ba0741-9d1d-4333-b4ad-87c95266ddf8.png)
 ![Знімок екрана_20230221_211736](https://user-images.githubusercontent.com/72669184/220441232-04baa18b-2111-41dd-b0ee-fa802a1a5d04.png)
-![Знімок екрана_20230228_224929](https://user-images.githubusercontent.com/72669184/221976984-ca3f2d88-8a9c-4120-be22-3db20bed3f74.png)
+![Знімок екрана 2023-03-31 215808](https://user-images.githubusercontent.com/72669184/229206636-2bbca4b3-ee2e-49ed-b68f-4a31ddcf703e.png)
 ![Знімок екрана_20230228_225115](https://user-images.githubusercontent.com/72669184/221977450-6bdfb750-f226-4548-b6e7-d00b3413f7b9.png)
 ![Знімок екрана_20230228_225116](https://user-images.githubusercontent.com/72669184/221977460-621cf01a-687c-4028-9e69-0b4bfe4d76f6.png)
 ![Знімок екрана_20230228_225114](https://user-images.githubusercontent.com/72669184/221977212-ff4c1418-bad8-40e4-be0c-6045644f28d3.png)
