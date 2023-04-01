@@ -40,6 +40,10 @@ Data files are stored in the app's folder.
 
 ## Changelog:
 
+### v.0.0.4-beta:
+* bug fix.
+* encryption and decryption changed a bit.
+
 ### v.0.0.3-beta:
 * BIG updade - encryption and decryption are added.  
 They use input password as a key, so every record is secured.

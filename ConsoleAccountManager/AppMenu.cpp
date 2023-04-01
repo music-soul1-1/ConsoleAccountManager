@@ -110,7 +110,7 @@ void AppMenu::AppUI()
             case 63:
             {
                 cout << "App version:\n"
-                     << "v.0.0.3-beta\n\n"
+                     << "v.0.0.4-beta\n\n"
                      << "Made by:\n\n"
                      << "music-soul1-1\n\n"
                      << "Github page:\n"

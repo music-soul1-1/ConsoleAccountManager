@@ -252,7 +252,7 @@ void LoginManager::addAccount()
 		addLine(accountsFile, newLogin);
 		addLine(accountsFile, newPassword);
 		addLine(accountsFile, "+----------------------+");
-		addLine(accountsFile, "", ' '); // adding just new line
+		addLine(accountsFile, "", ' '); // just adding a new line
 	}
 	else
 	{
@@ -265,10 +265,10 @@ void LoginManager::removeAccount()
 {
 	fstream mainFile;
 	ofstream tempFile;
-	string decryptedLine, recordToRemove, user;
+	string decryptedLine, recordToRemove, user, separator;
 	long long tempChar = 0;
 	bool isUserCorrect = false, isBeginning = false,
-		 isNeededToSkip = false;
+		 isNeededToSkip = false, isSeparator = false;
 
 	cout << "Enter the name of the service you would like to delete: ";
 	cin >> recordToRemove;
@@ -285,6 +285,7 @@ void LoginManager::removeAccount()
 
 		if (tempChar == 1)
 		{
+			// checking username
 			if (currentUser == decryptedLine)
 			{
 				isUserCorrect = true;
@@ -301,6 +302,28 @@ void LoginManager::removeAccount()
 		}
 		else if (tempChar == 0)
 		{
+			// if line is "+----------------------+"
+			if (decryptedLine.length() == 24 && decryptedLine[0] == decryptedLine[decryptedLine.length() - 1])
+			{
+				for (int i = 1; i < decryptedLine.length() - 2; i++)
+				{
+					if (decryptedLine[i] != decryptedLine[static_cast <char> (i + 1)])
+					{
+						isSeparator = false;
+						separator.erase();
+					}
+					else
+					{
+						separator = decryptedLine;
+						isSeparator = true; // line is "+----------------------+"
+					}
+				}
+			}
+			else
+			{
+				isSeparator = false;
+			}
+
 			if (decryptedLine == recordToRemove && isUserCorrect)
 			{
 				isNeededToSkip = true;
@@ -309,7 +332,7 @@ void LoginManager::removeAccount()
 				continue;
 			}
 
-			if ((decryptedLine == "+----------------------+" && isBeginning) || isNeededToSkip)
+			if ((isSeparator && isBeginning) || isNeededToSkip)
 			{
 				decryptedLine.erase();
 
@@ -322,7 +345,7 @@ void LoginManager::removeAccount()
 					addLine(temporaryFile, user, '1');
 					user.erase();
 
-					addLine(temporaryFile, "+----------------------+");
+					addLine(temporaryFile, separator);
 					isBeginning = false;
 				}
 				addLine(temporaryFile, decryptedLine);
@@ -334,7 +357,7 @@ void LoginManager::removeAccount()
 			decryptedLine += decrypt(tempChar, currentPassword);
 		}
 	}
-	addLine(temporaryFile, "", ' '); // adding just new line
+	addLine(temporaryFile, "", ' '); // just adding a new line
 
 	mainFile.close();
 	tempFile.close();
@@ -376,6 +399,7 @@ void LoginManager::removeUser()
 
 			if (tempChar == 1)
 			{
+				// checking username
 				if (currentUser == decryptedLine)
 				{
 					isUserCorrect = true;
@@ -486,7 +510,7 @@ long long LoginManager::encrypt(int input, string key)
 		
 		for (int i = 0; i < key.length(); i++)
 		{
-			result += key[i];
+			result += pow(key[i], 2);
 		}
 
 		return input + result;
@@ -506,7 +530,7 @@ char LoginManager::decrypt(long long input, string key)
 
 		for (int i = 0; i < key.length(); i++)
 		{
-			result -= key[i];
+			result -= pow(key[i], 2);
 		}
 
 		return static_cast <char> (input + result);
