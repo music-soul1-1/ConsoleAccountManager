@@ -27,6 +27,7 @@ Data files are stored in the app's folder.
 ![Знімок екрана 2023-03-31 215808](https://user-images.githubusercontent.com/72669184/229206636-2bbca4b3-ee2e-49ed-b68f-4a31ddcf703e.png)
 ![Знімок екрана_20230228_225115](https://user-images.githubusercontent.com/72669184/221977450-6bdfb750-f226-4548-b6e7-d00b3413f7b9.png)
 ![Знімок екрана_20230228_225116](https://user-images.githubusercontent.com/72669184/221977460-621cf01a-687c-4028-9e69-0b4bfe4d76f6.png)
+![Знімок екрана 2023-04-08 142938](https://user-images.githubusercontent.com/72669184/230720159-d14a9ec9-3818-4c70-84a6-c3b8a2abcb3c.png)
 ![Знімок екрана_20230228_225114](https://user-images.githubusercontent.com/72669184/221977212-ff4c1418-bad8-40e4-be0c-6045644f28d3.png)
 
 
@@ -39,6 +40,11 @@ Data files are stored in the app's folder.
 
 
 ## Changelog:
+
+### v.0.0.5-beta:
+* fixed bug when removing user, app would always exit to the main menu, even if the user chose not to.
+* fixed bug when 2 or more identical users could be added.
+* data file extention changed from .dat to .datafile
 
 ### v.0.0.4-beta:
 * bug fix.
