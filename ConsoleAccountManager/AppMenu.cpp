@@ -19,7 +19,7 @@ void AppMenu::AppUI()
 
         switch (menuCursor)
         {
-            // case 1
+            #pragma region case 1
             case 49:
             {
                 // login
@@ -70,9 +70,11 @@ void AppMenu::AppUI()
                             case 52:
                             {
                                 // removing current user and it's accounts
-                                app.removeUser();
-                                menuCursor = 53;
-
+                                if (app.removeUser())
+                                {
+                                    menuCursor = 53;
+                                }
+                                
                                 break;
                             }
                             default:
@@ -98,6 +100,7 @@ void AppMenu::AppUI()
                 
                 break;
             }
+            #pragma endregion
 
             // case 2
             case 50:
@@ -110,10 +113,10 @@ void AppMenu::AppUI()
             case 63:
             {
                 cout << "App version:\n"
-                     << "v.0.0.4-beta\n\n"
-                     << "Made by:\n\n"
+                     << "v.0.0.5-beta\n\n"
+                     << "Made by:\n"
                      << "music-soul1-1\n\n"
-                     << "Github page:\n"
+                     << "To get the latest version, visit app's Github page:\n"
                      << "https://github.com/music-soul1-1/ConsoleAccountManager\n\n";
 
                 break;

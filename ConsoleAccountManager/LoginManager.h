@@ -3,17 +3,16 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <math.h>
 
 using namespace std;
 
 class LoginManager
 {
 private:
-	/* Variables and constants */
-	string inputLogin, inputPassword,
-		   usersFile = "users.dat", accountsFile = "accounts.dat",
-		   currentUser, currentPassword;
-	const char* temporaryFile = "temp.dat";
+	string currentUser, currentPassword,
+		   usersFile = "users.datafile", accountsFile = "accounts.datafile";
+	const char* temporaryFile = "temp.datafile";
 
 public:
 	/* Variables and constants */
@@ -25,7 +24,7 @@ public:
 	bool checkForUserName(string fileName, string inputParam);
 
 	// checks if content for current user exists within a file
-	bool checkUser(string fileName, string contentToCheck);
+	bool checkContent(string fileName, string contentToCheck, string decryptionKey);
 
 	// login function
 	bool login();
@@ -34,9 +33,10 @@ public:
 	void addUser();
 
 	// add line function. This function encrypts and adds specified content to file.
+	// "encryptionKey" parameter is the key used for encrypting content.
 	// "delimiter" parameter is printed after all the content. Default valuse is 0.
 	// "endWith" parameter defines the ending of each character. Default value is ' '(space).
-	void addLine(string fileName, string content, char delimiter = '0', char endWith = ' ');
+	void addLine(string fileName, string content, string encryptionKey, char delimiter = '0', char endWith = ' ');
 
 	// this function displays all records for current user
 	void readAccounts();
@@ -48,7 +48,7 @@ public:
 	void removeAccount();
 
 	// removes user and it's accounts file
-	void removeUser();
+	bool removeUser();
 
 	// Encryption function.
 	// Second parameter is used as a key(password) for encrypting.

@@ -1,6 +1,7 @@
 #include "LoginManager.h"
 
-// checks if user exists within a file
+// checks if user exists within a file.
+// Returns true if user was found.
 bool LoginManager::checkForUserName(string fileName, string inputParam)
 {
 	bool valueExists = false;
@@ -35,7 +36,7 @@ bool LoginManager::checkForUserName(string fileName, string inputParam)
 		}
 		else
 		{
-			line += decrypt(tempChar, currentPassword);
+			line += decrypt(tempChar, inputParam);
 		}
 	}
 	file.close();
@@ -44,7 +45,7 @@ bool LoginManager::checkForUserName(string fileName, string inputParam)
 }
 
 // checks if content for current user exists within a file
-bool LoginManager::checkUser(string fileName, string contentToCheck)
+bool LoginManager::checkContent(string fileName, string contentToCheck, string decryptionKey)
 {
 	fstream file;
 	string line;
@@ -93,7 +94,7 @@ bool LoginManager::checkUser(string fileName, string contentToCheck)
 		}
 		else
 		{
-			line += decrypt(tempChar, currentPassword);
+			line += decrypt(tempChar, decryptionKey);
 		}
 	}
 	file.close();
@@ -111,7 +112,7 @@ bool LoginManager::login()
 	cin >> currentPassword;
 	cout << "\n";
 
-	checkUser(usersFile, currentPassword) ? isLoggedIn = true : isLoggedIn = false;
+	checkContent(usersFile, currentPassword, currentUser) ? isLoggedIn = true : isLoggedIn = false;
 
 	return isLoggedIn;
 }
@@ -120,34 +121,29 @@ bool LoginManager::login()
 void LoginManager::addUser()
 {
 	string newUserName, newUserPassword;
-	bool isUsed = false;
 
 	// getting username and password
 	cout << "\nEnter new user's name: ";
-	cin >> newUserName;
+	cin >> currentUser;
 
-	if (checkForUserName(usersFile, newUserName))
+	if (checkForUserName(usersFile, currentUser))
 	{
 		cout << "This user already exists.\n";
-		isUsed = true;
 	}
 	else
 	{
 		cout << "\nNow enter a password: ";
-		cin >> currentPassword;
-	}
+		cin >> newUserPassword;
 
-	// putting username and password into appropriate files
-	if (!isUsed)
-	{
-		addLine(usersFile, newUserName, '1');
-		addLine(usersFile, currentPassword);
+		// putting username and password into appropriate files
+		addLine(usersFile, currentUser, currentUser, '1');
+		addLine(usersFile, newUserPassword, currentUser);
 
 		cout << "User added successfully :)\n";
 	}
 }
 
-void LoginManager::addLine(string fileName, string content, char delimiter, char endWith)
+void LoginManager::addLine(string fileName, string content, string encryptionKey, char delimiter, char endWith)
 {
 	fstream file;
 
@@ -158,7 +154,7 @@ void LoginManager::addLine(string fileName, string content, char delimiter, char
 	{
 		for (int i = 0; i < content.length(); i++)
 		{
-			file << encrypt(content[i], currentPassword) << endWith;
+			file << encrypt(content[i], encryptionKey) << endWith;
 		}
 		if (delimiter == ' ')
 		{
@@ -218,7 +214,7 @@ void LoginManager::readAccounts()
 		}
 		else
 		{
-			line += decrypt(tempChar, currentPassword);
+			line += decrypt(tempChar, currentUser + currentPassword);
 		}
 	}
 
@@ -238,21 +234,21 @@ void LoginManager::addAccount()
 	cout << "Enter the name of the service (e.g. Gmail): ";
 	cin >> newServiceName;
 
-	if (!checkUser(accountsFile, newServiceName))
+	if (!checkContent(accountsFile, newServiceName, currentUser + currentPassword))
 	{
 		cout << "Enter account's login: ";
 		cin >> newLogin;
 		cout << "Enter account's password: ";
 		cin >> newPassword;
 
-		addLine(accountsFile, currentUser, '1');
-		addLine(accountsFile, "+----------------------+");
-		addLine(accountsFile, newServiceName);
-		addLine(accountsFile, "###############");
-		addLine(accountsFile, newLogin);
-		addLine(accountsFile, newPassword);
-		addLine(accountsFile, "+----------------------+");
-		addLine(accountsFile, "", ' '); // just adding a new line
+		addLine(accountsFile, currentUser, currentUser + currentPassword, '1');
+		addLine(accountsFile, "+----------------------+", currentUser + currentPassword);
+		addLine(accountsFile, newServiceName, currentUser + currentPassword);
+		addLine(accountsFile, "###############", currentUser + currentPassword);
+		addLine(accountsFile, newLogin, currentUser + currentPassword);
+		addLine(accountsFile, newPassword, currentUser + currentPassword);
+		addLine(accountsFile, "+----------------------+", currentUser + currentPassword);
+		addLine(accountsFile, "", currentUser + currentPassword, ' '); // just adding a new line
 	}
 	else
 	{
@@ -267,7 +263,7 @@ void LoginManager::removeAccount()
 	ofstream tempFile;
 	string decryptedLine, recordToRemove, user, separator;
 	long long tempChar = 0;
-	bool isUserCorrect = false, isBeginning = false,
+	bool isUserCorrect = false, isBeginningOfRecord = false,
 		 isNeededToSkip = false, isSeparator = false;
 
 	cout << "Enter the name of the service you would like to delete: ";
@@ -286,15 +282,9 @@ void LoginManager::removeAccount()
 		if (tempChar == 1)
 		{
 			// checking username
-			if (currentUser == decryptedLine)
-			{
-				isUserCorrect = true;
-			}
-			else
-			{
-				isUserCorrect = false;
-			}
-			isBeginning = true;
+			isUserCorrect = (currentUser == decryptedLine);
+			
+			isBeginningOfRecord = true;
 			isNeededToSkip = false;
 
 			user = decryptedLine;
@@ -302,26 +292,20 @@ void LoginManager::removeAccount()
 		}
 		else if (tempChar == 0)
 		{
-			// if line is "+----------------------+"
-			if (decryptedLine.length() == 24 && decryptedLine[0] == decryptedLine[decryptedLine.length() - 1])
+			// check if line is "+----------------------+"
+			isSeparator = (decryptedLine.length() == 24 && decryptedLine[0] == decryptedLine[decryptedLine.length() - 1]);
+			if (isSeparator)
 			{
+				separator = decryptedLine;
 				for (int i = 1; i < decryptedLine.length() - 2; i++)
 				{
 					if (decryptedLine[i] != decryptedLine[static_cast <char> (i + 1)])
 					{
 						isSeparator = false;
 						separator.erase();
-					}
-					else
-					{
-						separator = decryptedLine;
-						isSeparator = true; // line is "+----------------------+"
+						break;
 					}
 				}
-			}
-			else
-			{
-				isSeparator = false;
 			}
 
 			if (decryptedLine == recordToRemove && isUserCorrect)
@@ -332,7 +316,7 @@ void LoginManager::removeAccount()
 				continue;
 			}
 
-			if ((isSeparator && isBeginning) || isNeededToSkip)
+			if ((isSeparator && isBeginningOfRecord) || isNeededToSkip)
 			{
 				decryptedLine.erase();
 
@@ -340,38 +324,38 @@ void LoginManager::removeAccount()
 			}
 			else if (decryptedLine != recordToRemove)
 			{
-				if (isBeginning)
+				if (isBeginningOfRecord)
 				{
-					addLine(temporaryFile, user, '1');
+					addLine(temporaryFile, user, currentUser + currentPassword, '1');
 					user.erase();
 
-					addLine(temporaryFile, separator);
-					isBeginning = false;
+					addLine(temporaryFile, separator, currentUser + currentPassword);
+					isBeginningOfRecord = false;
 				}
-				addLine(temporaryFile, decryptedLine);
+				addLine(temporaryFile, decryptedLine, currentUser + currentPassword);
 			}
 			decryptedLine.erase();
 		}
 		else
 		{
-			decryptedLine += decrypt(tempChar, currentPassword);
+			decryptedLine += decrypt(tempChar, currentUser + currentPassword);
 		}
 	}
-	addLine(temporaryFile, "", ' '); // just adding a new line
+	addLine(temporaryFile, "", currentUser + currentPassword, ' '); // just adding a new line
 
 	mainFile.close();
 	tempFile.close();
 
 	remove(accountsFile.c_str());
-	bool isRenameSuccessful = rename(temporaryFile, accountsFile.c_str());
-	if (isRenameSuccessful) // rename returns 0 if successfull
+
+	if (rename(temporaryFile, accountsFile.c_str())) // rename returns 0 if successfull
 	{
-		cout << "Error renaming 'temp.dat' file\n\n";
+		cout << "Error renaming 'temp.datafile' file\n\n";
 	}
 }
 
 // removes current user and it's accounts file
-void LoginManager::removeUser()
+bool LoginManager::removeUser()
 {
 	fstream recordsFile, userFile;
 	ofstream tempFile;
@@ -388,7 +372,8 @@ void LoginManager::removeUser()
 
 	if ((input == 'Y') || (input == 'y'))
 	{
-		/* Removing account records */
+		#pragma region Removing account records
+
 		recordsFile.open(accountsFile, ios::in);
 		tempFile.open(temporaryFile, ios::app);
 
@@ -402,15 +387,13 @@ void LoginManager::removeUser()
 				// checking username
 				if (currentUser == decryptedLine)
 				{
-					isUserCorrect = true;
-					isNeededToSkip = true;
+					isUserCorrect = isNeededToSkip = true;
 				}
 				else
 				{
-					isUserCorrect = false;
-					isNeededToSkip = false;
+					isUserCorrect = isNeededToSkip = false;
 
-					addLine(temporaryFile, decryptedLine, '1');
+					addLine(temporaryFile, decryptedLine, currentUser + currentPassword, '1');
 				}
 				decryptedLine.erase();
 			}
@@ -418,14 +401,14 @@ void LoginManager::removeUser()
 			{
 				if (!isNeededToSkip)
 				{
-					addLine(temporaryFile, decryptedLine);
+					addLine(temporaryFile, decryptedLine, currentUser + currentPassword);
 				}
 
 				decryptedLine.erase();
 			}
 			else
 			{
-				decryptedLine += decrypt(tempChar, currentPassword);
+				decryptedLine += decrypt(tempChar, currentUser + currentPassword);
 			}
 		}
 		decryptedLine.erase();
@@ -434,9 +417,15 @@ void LoginManager::removeUser()
 		tempFile.close();
 
 		remove(accountsFile.c_str());
-		bool isRenameSuccessful = rename(temporaryFile, accountsFile.c_str());
 
-		/* Removing user */
+		if (rename(temporaryFile, accountsFile.c_str())) // rename returns 0 if successfull
+		{
+			cout << "Error renaming temporary file\n\n";
+		}
+		#pragma endregion
+
+		#pragma region Removing user
+
 		isUserCorrect = isNeededToSkip = false;
 
 		userFile.open(usersFile, ios::in);
@@ -458,7 +447,7 @@ void LoginManager::removeUser()
 				{
 					isUserCorrect = false;
 					isNeededToSkip = false;
-					addLine(temporaryFile, decryptedLine, '1');
+					addLine(temporaryFile, decryptedLine, currentUser, '1');
 				}
 				decryptedLine.erase();
 			}
@@ -466,7 +455,7 @@ void LoginManager::removeUser()
 			{
 				if (!isNeededToSkip)
 				{
-					addLine(temporaryFile, decryptedLine);
+					addLine(temporaryFile, decryptedLine, currentUser);
 					decryptedLine.erase();
 				}
 				else
@@ -478,7 +467,7 @@ void LoginManager::removeUser()
 			}
 			else
 			{
-				decryptedLine += decrypt(tempChar, currentPassword);
+				decryptedLine += decrypt(tempChar, currentUser);
 
 			}
 		}
@@ -486,12 +475,18 @@ void LoginManager::removeUser()
 		tempFile.close();
 
 		remove(usersFile.c_str());
-		isRenameSuccessful = rename(temporaryFile, usersFile.c_str());
 
-		if (isRenameSuccessful) // rename returns 0 if successfull
+		if (rename(temporaryFile, usersFile.c_str())) // rename returns 0 if successfull
 		{
 			cout << "Error renaming file\n\n";
 		}
+		#pragma endregion
+
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 
@@ -510,7 +505,7 @@ long long LoginManager::encrypt(int input, string key)
 		
 		for (int i = 0; i < key.length(); i++)
 		{
-			result += pow(key[i], 2);
+			result += static_cast <int> (pow(key[i], 3));
 		}
 
 		return input + result;
@@ -530,7 +525,7 @@ char LoginManager::decrypt(long long input, string key)
 
 		for (int i = 0; i < key.length(); i++)
 		{
-			result -= pow(key[i], 2);
+			result -= static_cast <int> (pow(key[i], 3));
 		}
 
 		return static_cast <char> (input + result);
