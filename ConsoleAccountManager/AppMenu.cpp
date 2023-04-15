@@ -5,6 +5,7 @@ void AppMenu::AppUI()
 {
     LoginManager app;
 
+    int countLoginAttempts = 0;
     char menuCursor = 49;
 
     while (menuCursor != 48) {
@@ -95,7 +96,20 @@ void AppMenu::AppUI()
                 }
                 else
                 {
-                    cout << "Login or password is not correct.\n" << "You're not logged in.\n";
+                    if (countLoginAttempts >= 3)
+                    {
+                        cout << "Too many login attempts.\n"
+                             << "Try next time.\n";
+
+                        menuCursor = 48;
+                    }
+                    else
+                    {
+                        cout << "Login or password is not correct.\n" 
+                             << "You're not logged in.\n";
+
+                        countLoginAttempts++;
+                    }
                 }
                 
                 break;
@@ -113,7 +127,7 @@ void AppMenu::AppUI()
             case 63:
             {
                 cout << "App version:\n"
-                     << "v.0.0.5-beta\n\n"
+                     << "v.0.0.6-beta\n\n"
                      << "Made by:\n"
                      << "music-soul1-1\n\n"
                      << "To get the latest version, visit app's Github page:\n"

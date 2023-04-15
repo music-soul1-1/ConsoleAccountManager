@@ -112,12 +112,12 @@ bool LoginManager::login()
 	cin >> currentPassword;
 	cout << "\n";
 
-	checkContent(usersFile, currentPassword, currentUser) ? isLoggedIn = true : isLoggedIn = false;
+	isLoggedIn = checkContent(usersFile, currentPassword, currentUser) ? true : false;
 
 	return isLoggedIn;
 }
 
-// add user function
+// adds user
 void LoginManager::addUser()
 {
 	string newUserName, newUserPassword;
@@ -173,7 +173,7 @@ void LoginManager::addLine(string fileName, string content, string encryptionKey
 	file.close();
 }
 
-// this function displays all records for current user
+// displays all records for current user
 void LoginManager::readAccounts()
 {
 	fstream file;
@@ -226,7 +226,7 @@ void LoginManager::readAccounts()
 	file.close();
 }
 
-// this function adds new account records for the current user
+// adds new account records for the current user
 void LoginManager::addAccount()
 {
 	string newLogin, newPassword, newServiceName;
@@ -242,12 +242,12 @@ void LoginManager::addAccount()
 		cin >> newPassword;
 
 		addLine(accountsFile, currentUser, currentUser + currentPassword, '1');
-		addLine(accountsFile, "+----------------------+", currentUser + currentPassword);
+		addLine(accountsFile, "+----------------------------+", currentUser + currentPassword);
 		addLine(accountsFile, newServiceName, currentUser + currentPassword);
-		addLine(accountsFile, "###############", currentUser + currentPassword);
+		addLine(accountsFile, "############################", currentUser + currentPassword);
 		addLine(accountsFile, newLogin, currentUser + currentPassword);
 		addLine(accountsFile, newPassword, currentUser + currentPassword);
-		addLine(accountsFile, "+----------------------+", currentUser + currentPassword);
+		addLine(accountsFile, "+----------------------------+", currentUser + currentPassword);
 		addLine(accountsFile, "", currentUser + currentPassword, ' '); // just adding a new line
 	}
 	else
@@ -256,7 +256,7 @@ void LoginManager::addAccount()
 	}
 }
 
-// removes account record for the user
+// removes account record for the current user
 void LoginManager::removeAccount()
 {
 	fstream mainFile;
@@ -292,8 +292,8 @@ void LoginManager::removeAccount()
 		}
 		else if (tempChar == 0)
 		{
-			// check if line is "+----------------------+"
-			isSeparator = (decryptedLine.length() == 24 && decryptedLine[0] == decryptedLine[decryptedLine.length() - 1]);
+			// check if line is "+----------------------------+"
+			isSeparator = (decryptedLine.length() == 30 && decryptedLine[0] == decryptedLine[decryptedLine.length() - 1]);
 			if (isSeparator)
 			{
 				separator = decryptedLine;

@@ -20,7 +20,7 @@ public:
 
 	/* Functions */
 
-	// checks if user exists within a file
+	// checks if user exists within a file.
 	bool checkForUserName(string fileName, string inputParam);
 
 	// checks if content for current user exists within a file
@@ -29,7 +29,7 @@ public:
 	// login function
 	bool login();
 
-	// add user function
+	// adds user
 	void addUser();
 
 	// add line function. This function encrypts and adds specified content to file.
@@ -38,16 +38,16 @@ public:
 	// "endWith" parameter defines the ending of each character. Default value is ' '(space).
 	void addLine(string fileName, string content, string encryptionKey, char delimiter = '0', char endWith = ' ');
 
-	// this function displays all records for current user
+	// displays all records for current user
 	void readAccounts();
 
-	// this function adds new account records for the current user
+	// adds new account records for the current user
 	void addAccount();
 	
-	// removes account
+	// removes account record for the current user
 	void removeAccount();
 
-	// removes user and it's accounts file
+	// removes current user and it's accounts file
 	bool removeUser();
 
 	// Encryption function.

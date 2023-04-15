@@ -41,10 +41,17 @@ Data files are stored in the app's folder.
 
 ## Changelog:
 
+### v.0.0.6-beta:
+* small improvements.
+* now the user has only 3 attempts to log in. If exceeded, the programm exits.
+* the length of separator lines was increased for readability.
+* "ConsoleAccountManager.cpp" was renamed to "Main.cpp".
+
 ### v.0.0.5-beta:
 * fixed bug when removing user, app would always exit to the main menu, even if the user chose not to.
 * fixed bug when 2 or more identical users could be added.
 * data file extention changed from .dat to .datafile
+* encryption and decryption functions changed a bit
 
 ### v.0.0.4-beta:
 * bug fix.
